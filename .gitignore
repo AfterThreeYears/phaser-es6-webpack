@@ -1,7 +1,7 @@
 node_modules/
 platforms/
 plugins/
-dist/
+build/
 .vscode/
 *.log
 package-lock.json
