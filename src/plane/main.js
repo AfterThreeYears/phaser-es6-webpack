@@ -8,7 +8,6 @@ import CreatedState from './states/Created';
 import PlayState from './states/Play';
 import OverState from './states/Over';
 
-import config from './config'
 
 class Game extends Phaser.Game {
   constructor() {
@@ -17,13 +16,13 @@ class Game extends Phaser.Game {
     const height = docElement.clientHeight;
 
     super(width, height, Phaser.CANVAS, 'content', null);
-
-    this.state.add('Boot', BootState, false);
-    this.state.add('Preload', PreloadState, false);
-    this.state.add('Created', CreatedState, false);
-    this.state.add('Play', PlayState, false);
-    this.state.add('Over', OverState, false);
-
+  }
+  init(game) {
+    this.state.add('Boot', BootState(game), false);
+    this.state.add('Preload', PreloadState(game), false);
+    this.state.add('Created', CreatedState(game), false);
+    this.state.add('Play', PlayState(game), false);
+    this.state.add('Over', OverState(game), false);
     this.state.start('Boot');
   }
 }
@@ -32,4 +31,6 @@ if (module.hot) {
   module.hot.accept();
 }
 
-window.game = new Game();
+const game = new Game();
+game.init(game);
+

@@ -1,12 +1,12 @@
 {
-    "name": "GAME",
+    "name": "game",
     "version": "1.1.0",
     "scripts": {
         "start": "cross-env NODE_ENV=dev TARGET_ENV=http://test.pis.meipu.cn/proxy node bin/server.js",
         "dev:test": "cross-env NODE_ENV=dev TARGET_ENV=http://test.pis.meipu.cn/proxy node bin/server.js",
         "build": "rimraf build && cross-env NODE_ENV=production webpack --config bin/webpack-production.config.js --progress --colors --bail",
         "deploy": "webpack --config webpack.production.config.js",
-        "test": "eslint ./src/**/**.js"
+        "eslint": "eslint ./src/**/*.js"
     },
     "license": "MIT",
     "devDependencies": {
@@ -19,8 +19,10 @@
         "clean-webpack-plugin": "^0.1.17",
         "copy-webpack-plugin": "^4.2.0",
         "cross-env": "^5.1.1",
-        "eslint": "^4.3.0",
+        "eslint": "^4.10.0",
         "eslint-config-standard": "^10.2.1",
+        "eslint-plugin-babel": "^4.1.2",
+        "eslint-plugin-html": "^4.0.0-alpha.1",
         "eslint-plugin-import": "^2.7.0",
         "eslint-plugin-node": "^5.1.1",
         "eslint-plugin-promise": "^3.5.0",
