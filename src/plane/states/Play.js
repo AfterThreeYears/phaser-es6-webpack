@@ -8,6 +8,8 @@ export default (game) => {
       this.score = 0;
       this.bulletSpeed = 500;
       this.enemySpeed = 100;
+      this.startAngle = 80;
+      this.angleStep = 10;
 
       this.bg = game.add.tileSprite(0, 0, game.width, game.height, 'bg');
       this.bg.autoScroll(0, -this.bgSpeed);
@@ -74,6 +76,7 @@ export default (game) => {
     }
     destroyEnemy(bullet, enemy) {
       if (enemy.life === 0) {
+        this.computedScore(enemy.score);
         enemy.kill();
         this.createExplode(enemy);
       } else {
@@ -95,11 +98,15 @@ export default (game) => {
       plane.isInjured = true;
       enemyBullet.kill();
     }
+    computedScore(score) {
+      this.score += score;
+      this.scoreText.text = `分数${this.score}`;
+    }
     gameOver() {
       game.state.start('Over', true, false, this.score);
     }
     generateBullet() {
-      console.log('子弹的数量', this.mybulletGroup.children.length);
+      // console.log('子弹的数量', this.mybulletGroup.children.length);
       if (!this.plane.alive) return;
       if (this.plane.isInjured) {
         // 一颗子弹
@@ -109,7 +116,7 @@ export default (game) => {
       } else {
         if (this.resetSectorBullet()) return;
         // 扇形子弹
-        for (let i = 40; i <= 120; i += 30) {
+        for (let i = this.startAngle; i <= 100; i += this.angleStep) {
           const mybullet = game.add.sprite(this.plane.x, this.plane.y, 'mybullet', null, this.mybulletGroup);
           mybullet.body.velocity.y = -this.bulletSpeed * Math.sin(Math.PI / 180 * i);
           mybullet.body.velocity.x = -this.bulletSpeed * Math.cos(Math.PI / 180 * i);
@@ -121,20 +128,20 @@ export default (game) => {
     // 重生扇形子弹
     resetSectorBullet() {
       let i = 0;
-      let angle = 40;
-      let c = 40;
+      let angle = this.startAngle;
+      let c = this.startAngle;
       this.mybulletGroup.forEachDead(function(bullet) {
         if (i > 2) return;
         bullet.reset(this.plane.x, this.plane.y);
         bullet.body.velocity.y = -this.bulletSpeed * Math.sin(Math.PI / 180 * c);
         bullet.body.velocity.x = -this.bulletSpeed * Math.cos(Math.PI / 180 * c);
-        c = angle += 30;
+        c = angle += this.angleStep;
         i++;
       }, this);
       return i === 3;
     }
     createEnemy() {
-      console.log('敌机的数量', this.enemyGroup.length);
+      // console.log('敌机的数量', this.enemyGroup.length);
       const index = game.rnd.integerInRange(1, 3);
       const enemyName = `enemy${index}`;
       const cache = game.cache.getImage(enemyName);
@@ -155,21 +162,24 @@ export default (game) => {
         enemy.bulletSpeed = 400;
         enemy.fireGapTime = 1000;
         enemy.life = 2;
+        enemy.score = 10;
       } else if (index === 2) {
         enemy.bulletSpeed = 300;
         enemy.fireGapTime = 2000;
         enemy.life = 3;
+        enemy.score = 30;
       } else if (index === 3) {
         enemy.bulletSpeed = 200;
         enemy.fireGapTime = 3000;
         enemy.life = 5;
+        enemy.score = 50;
       }
 
       this.enemyGroup.setAll('checkWorldBounds', true);
       this.enemyGroup.setAll('outOfBoundsKill', true);
     }
     createEnemyBullet() {
-      console.log('敌方子弹的数量', this.enemyBulletGroup.length);
+      // console.log('敌方子弹的数量', this.enemyBulletGroup.length);
       this.enemyGroup.forEachAlive((enemy) => {
         if (enemy.lastFireTime > enemy.fireGapTime) {
           const x = enemy.x;
@@ -186,10 +196,8 @@ export default (game) => {
     }
     createExplode(enemy) {
       const {index, x, y} = enemy;
-      console.log(index, x, y);
-      console.log('爆炸动画数量', this.explodeGroup.children.length);
+      // console.log('爆炸动画数量', this.explodeGroup.children.length);
       const explode = this.explodeGroup.getFirstExists(false, true, x, y, `explode${index}`);
-      console.log(index, explode.key);
       this.explodeGroup.add(explode);
       explode.anchor.setTo(0.5, 0.5);
       explode.animations.add('explode');
@@ -200,7 +208,9 @@ export default (game) => {
       myexplode.anchor.setTo(0.5, 0);
       myexplode.animations.add('explode');
       myexplode.animations.play('explode', 30, false, true);
-      this.gameOver();
+      setTimeout(() => {
+        this.gameOver();
+      }, 50);
     }
   };
 };
