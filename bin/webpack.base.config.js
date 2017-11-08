@@ -74,10 +74,12 @@ const config = {
 
 const flappybird = path.resolve(__dirname, '../src/flappybird/main.js');
 const doll = path.resolve(__dirname, '../src/doll/main.js');
+const plane = path.resolve(__dirname, '../src/plane/main.js');
 
 const entrys = {
   flappybird: isProd ? flappybird : [flappybird, hotMiddlewareScript],
   doll: isProd ? doll : [doll, hotMiddlewareScript],
+  plane: isProd ? plane : [plane, hotMiddlewareScript],
 }
 
 config.entry = Object.assign(config.entry, entrys);
@@ -94,6 +96,13 @@ config.plugins.push(new HtmlWebpackPlugin({
   chunks: ['vendor', 'doll'],
   chunkFilename: '[name]?[hash]',
   template: path.join(__dirname, '../src/doll/doll.html'),
+  inject: 'body',
+}));
+config.plugins.push(new HtmlWebpackPlugin({
+  filename: 'plane.html',
+  chunks: ['vendor', 'plane'],
+  chunkFilename: '[name]?[hash]',
+  template: path.join(__dirname, '../src/plane/plane.html'),
   inject: 'body',
 }));
 
