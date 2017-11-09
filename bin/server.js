@@ -6,7 +6,7 @@ const app = express();
 const webpack = require('webpack');
 const proxy = require('http-proxy-middleware');
 const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
+// const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('./webpack-dev-server.config.js');
 const contentBase = path.join(__dirname, '../src/assets');
 const compiler = webpack(config);
@@ -32,7 +32,7 @@ app.use(webpackDevMiddleware(compiler, {
     colors: true,
   },
 }));
-app.use(webpackHotMiddleware(compiler));
+// app.use(webpackHotMiddleware(compiler));
 
 app.listen(5000, (err) => {
   if (err) return console.log(err);

@@ -5,7 +5,7 @@ const base = require('./webpack.base.config');
 
 const config = merge(base, {
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
   ],
 });

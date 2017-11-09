@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const hotMiddlewareScript = 'webpack-hot-middleware/client?overlay=false';
+// const hotMiddlewareScript = 'webpack-hot-middleware/client?overlay=false';
 const isProd = process.env.NODE_ENV === 'production';
 
 let list;
@@ -28,7 +28,8 @@ const createEntrys = (data) => {
     if (result[current]) console.log(`${current}文件夹有多个`);
     const main = path.resolve(__dirname, `../src/${current}/main.js`);
     return Object.assign(result, {
-      [current]: isProd ? main : [main, hotMiddlewareScript],
+      // [current]: isProd ? main : [main, hotMiddlewareScript],
+      [current]: main,
     });
   }, {});
 };
