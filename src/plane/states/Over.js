@@ -32,7 +32,7 @@ export default (game) => {
       game.state.start('Play');
     }
     onShare() {
-      console.log('onShare');
+      
     }
   };
 };

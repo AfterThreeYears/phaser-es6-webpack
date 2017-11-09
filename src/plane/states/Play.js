@@ -76,7 +76,6 @@ export default (game) => {
     }
     destroyEnemy(bullet, enemy) {
       if (enemy.life === 0) {
-        this.computedScore(enemy.score);
         enemy.kill();
         this.createExplode(enemy);
       } else {
@@ -106,7 +105,7 @@ export default (game) => {
       game.state.start('Over', true, false, this.score);
     }
     generateBullet() {
-      // console.log('子弹的数量', this.mybulletGroup.children.length);
+      console.log('子弹的数量', this.mybulletGroup.children.length);
       if (!this.plane.alive) return;
       if (this.plane.isInjured) {
         // 一颗子弹
@@ -141,7 +140,7 @@ export default (game) => {
       return i === 3;
     }
     createEnemy() {
-      // console.log('敌机的数量', this.enemyGroup.length);
+      console.log('敌机的数量', this.enemyGroup.length);
       const index = game.rnd.integerInRange(1, 3);
       const enemyName = `enemy${index}`;
       const cache = game.cache.getImage(enemyName);
@@ -179,7 +178,7 @@ export default (game) => {
       this.enemyGroup.setAll('outOfBoundsKill', true);
     }
     createEnemyBullet() {
-      // console.log('敌方子弹的数量', this.enemyBulletGroup.length);
+      console.log('敌方子弹的数量', this.enemyBulletGroup.length);
       this.enemyGroup.forEachAlive((enemy) => {
         if (enemy.lastFireTime > enemy.fireGapTime) {
           const x = enemy.x;
@@ -196,21 +195,26 @@ export default (game) => {
     }
     createExplode(enemy) {
       const {index, x, y} = enemy;
-      // console.log('爆炸动画数量', this.explodeGroup.children.length);
+      console.log('爆炸动画数量', this.explodeGroup.children.length);
       const explode = this.explodeGroup.getFirstExists(false, true, x, y, `explode${index}`);
       this.explodeGroup.add(explode);
       explode.anchor.setTo(0.5, 0.5);
-      explode.animations.add('explode');
-      explode.animations.play('explode', 30, false, true);
+      const anim = explode.animations.add('explode');
+      anim.play(30);
+      anim.onComplete.add(() => {
+        explode.kill();
+        this.computedScore(enemy.score);
+      }, this);
     }
     createMyPlane(plane) {
       const myexplode = game.add.sprite(plane.x, plane.y, 'myexplode');
       myexplode.anchor.setTo(0.5, 0);
-      myexplode.animations.add('explode');
-      myexplode.animations.play('explode', 30, false, true);
-      setTimeout(() => {
+      const anim = myexplode.animations.add('explode');
+      anim.play(30);
+      anim.onComplete.add(function() {
+        myexplode.destroy();
         this.gameOver();
-      }, 50);
+      }, this);
     }
   };
 };
