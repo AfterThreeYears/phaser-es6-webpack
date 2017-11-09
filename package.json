@@ -6,14 +6,15 @@
         "dev:test": "cross-env NODE_ENV=dev TARGET_ENV=http://test.pis.meipu.cn/proxy node bin/server.js",
         "build": "rimraf build && cross-env NODE_ENV=production webpack --config bin/webpack-production.config.js --progress --colors --bail",
         "deploy": "webpack --config webpack.production.config.js",
-        "eslint": "eslint ./src/**/*.js"
+        "eslint": "eslint ./src/**/*.js",
+        "create": "node ./shells/create.js"
     },
     "license": "MIT",
     "devDependencies": {
         "babel-core": "^6.25.0",
         "babel-eslint": "^7.2.3",
         "babel-loader": "^7.1.1",
-        "babel-polyfill": "^6.23.0",
+        "babel-polyfill": "^6.26.0",
         "babel-preset-es2015": "^6.24.1",
         "babel-preset-stage-1": "^6.24.1",
         "clean-webpack-plugin": "^0.1.17",
