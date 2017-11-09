@@ -9,7 +9,6 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('./webpack-dev-server.config.js');
 const contentBase = path.join(__dirname, '../src/assets');
-console.log(config);
 const compiler = webpack(config);
 
 app.use(require('morgan')('short'));

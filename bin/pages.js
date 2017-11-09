@@ -36,6 +36,7 @@ const createEntrys = (data) => {
 const tplList = createHtmlTpl(list);
 const entrys = createEntrys(list);
 
+console.log(entrys);
 module.exports = {
   tplList,
   entrys,

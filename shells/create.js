@@ -53,8 +53,8 @@ const tree = [{
   }],
 }];
 
-const createDir = (dirPath) => {
-  fs.mkdirSync(dirPath);
+const createDir = (args) => {
+  fs.mkdirSync(args);
 };
 
 const createFile = (filepath) => {
@@ -75,4 +75,5 @@ const init = (list) => {
   });
 };
 
-init(tree);
+// init(tree);
+createDir('../src/tets', '0755');
