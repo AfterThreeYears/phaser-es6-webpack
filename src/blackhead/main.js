@@ -1,6 +1,7 @@
 import 'pixi';
 import 'p2';
 import Phaser from 'phaser';
+import WebFont from 'webfontloader';
 
 import BootState from './states/Boot';
 import PreloadState from './states/Preload';
@@ -8,14 +9,12 @@ import CreatedState from './states/Created';
 import PlayState from './states/Play';
 import OverState from './states/Over';
 
-
 class Game extends Phaser.Game {
   constructor() {
-    const docElement = document.documentElement;
-    const width = docElement.clientWidth;
-    const height = docElement.clientHeight;
-
-    super(width, height, Phaser.CANVAS, 'content', null);
+    // const docElement = document.documentElement;
+    // const width = docElement.clientWidth;
+    // const height = docElement.clientHeight;
+    super(640, 1136, Phaser.CANVAS, 'content', null);
   }
   init(game) {
     this.state.add('Boot', BootState(game), false);
@@ -26,11 +25,14 @@ class Game extends Phaser.Game {
     this.state.start('Boot');
   }
 }
-
-if (module.hot) {
-  module.hot.accept();
-}
-
 const game = new Game();
-game.init(game);
-
+WebFont.load({
+  custom: {
+    families: ['My Font'],
+    urls: ['./blackhead/fonts.css'],
+  },
+  active() {
+    console.log('init');
+    game.init(game);
+  },
+});

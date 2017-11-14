@@ -7,19 +7,13 @@ export default (game) => {
       game.load.setPreloadSprite(preloadSprite);
 
       game.stage.backgroundColor = '#000';
-      game.load.crossOrigin = 'anonymous';
+      // game.load.crossOrigin = 'anonymous';
 
-      game.load.audio('ao', './plane/images/ao.mp3');
-      game.load.audio('crash1', './plane/images/crash1.mp3');
-      game.load.audio('crash2', './plane/images/crash2.mp3');
-      game.load.audio('crash3', './plane/images/crash3.mp3');
-      game.load.audio('deng', './plane/images/deng.mp3');
-      game.load.audio('fashe', './plane/images/fashe.mp3');
-      game.load.audio('normalback', './plane/images/normalback.mp3');
-      game.load.audio('playback', './plane/images/playback.mp3');
-      game.load.audio('pi', './plane/images/pi.mp3');
-
-      game.load.image('award', './plane/images/award.png');
+      game.load.image('fart', 'http://meipu4.video.meipai.com/d68785ea-be4a-46d4-abe0-8edd92a3ab1a.png');
+      game.load.image('stick', 'http://meipu1.video.meipai.com/e6f7fccc-700d-4403-9d1d-8f7172680687.png');
+      game.load.image('rightwing', 'http://meipu3.video.meipai.com/abc46b8e-2b58-4ee8-8987-138512d564ff.png');
+      game.load.image('leftwing', 'http://meipu2.video.meipai.com/16ad3295-7563-4fab-aa59-55cd9c93cfba.png');
+      game.load.image('girl', 'http://meipu1.video.meipai.com/3e6c4584-3a7b-41f8-ba50-c1d19590650c.png');
       game.load.image('bg', 'http://meipu1.video.meipai.com/7471ea06-3730-4ee3-95cc-efa990b45747.png');
       game.load.image('scloud1', 'http://meipu3.video.meipai.com/27b32f6e-f7bf-4f78-8010-d7de947f2d6b.png');
       game.load.image('scloud2', 'http://meipu4.video.meipai.com/de6fd8ad-c91c-4b37-988f-7c97d08f7dfb.png');
@@ -32,25 +26,31 @@ export default (game) => {
       game.load.image('zhui', 'http://meipu2.video.meipai.com/39838349-c2e3-41d2-863b-9a7eafa7f7d6.png');
       game.load.image('wu', 'http://meipu1.video.meipai.com/efc343ac-253c-4b41-9a5f-d6475afff8e2.png');
       game.load.image('titleHead', 'http://meipu4.video.meipai.com/ba3510a6-aeb0-4647-be2e-f1661d353c50.png');
-
-      game.load.image('bullet', './plane/images/bullet.png');
-      game.load.image('mybullet', './plane/images/mybullet.png');
-      game.load.image('close', './plane/images/close.png');
-      game.load.image('copyright', './plane/images/copyright.png');
-      game.load.image('enemy1', './plane/images/enemy1.png');
-      game.load.image('enemy2', './plane/images/enemy2.png');
-      game.load.image('enemy3', './plane/images/enemy3.png');
-      game.load.image('logo', './plane/images/logo.jpg');
-      game.load.image('share', './plane/images/share.png');
-
-      game.load.spritesheet('explode1', './plane/images/explode1.png', 20, 20, 3);
-      game.load.spritesheet('explode2', './plane/images/explode2.png', 30, 30, 3);
-      game.load.spritesheet('explode3', './plane/images/explode3.png', 50, 50, 3);
-      game.load.spritesheet('myexplode', './plane/images/myexplode.png', 40, 40, 3);
-      game.load.spritesheet('myplane', './plane/images/myplane.png', 40, 40, 4);
-      game.load.spritesheet('replaybutton', './plane/images/replaybutton.png', 80, 30, 2);
-      game.load.spritesheet('sharebutton', './plane/images/sharebutton.png', 80, 30, 2);
-      game.load.spritesheet('startbutton', './plane/images/startbutton.png', 100, 40, 2);
+      game.load.image('startgame', 'http://meipu4.video.meipai.com/1d3e5b13-5b36-44b8-b459-f36c79e3ac91.png');
+      game.load.image('go', 'http://meipu2.video.meipai.com/d63e958d-20cc-42da-9f8e-32778f14a526.png');
+      game.load.image('gobg', 'http://meipu4.video.meipai.com/599d9dbb-c5c8-49b4-aced-7acbf3fc074b.png');
+      game.load.image('crazybg', 'http://meipu3.video.meipai.com/6dace965-c5af-47b4-9c3e-8bee579fc3c3.png');
+      game.load.image('skin',
+        'http://meipu1.video.meipai.com/4f7831ca-cdb7-4001-966b-148c3a9f7b1b.png?imageView2/1/w/640/h/1136/q/100');
+      game.load.image('maskinfo', 'http://meipu4.video.meipai.com/bce6037a-d0a4-4186-9982-63e04e8b720f.png');
+      game.load.image('nose', 'http://meipu2.video.meipai.com/50e0f1f9-d978-4e02-a95d-26bf0fdaced1.png');
+      game.load.image('rhand', 'http://meipu2.video.meipai.com/9b18fc69-67fc-41d6-a578-ce233f2acb3f.png');
+      game.load.image('lhand', 'http://meipu1.video.meipai.com/b06b4f98-067c-4d1a-ad8f-c4742db8740f.png');
+      game.load.image('killedblack', 'http://meipu1.video.meipai.com/0df66d2e-da6f-405c-81fb-d6c203f227ac.png');
+      game.load.image('overbox', 'http://meipu3.video.meipai.com/1fdab595-b30d-477a-9175-efab21bc427d.png');
+      game.load.image('overfoot', 'http://meipu4.video.meipai.com/b6acee8a-9839-4cf9-8f81-df45abfdf759.png');
+      game.load.image('share', 'http://meipu1.video.meipai.com/18ff9fab-1502-4ff6-bbf8-6b3c9828bb75.png');
+      game.load.image('overgirl', 'http://meipu1.video.meipai.com/244c1130-9144-4c6d-b626-1b2f572d1501.png');
+      game.load.image('again', 'http://meipu3.video.meipai.com/568a50c8-60a7-4668-aa15-64311854def6.png');
+      game.load.image('logo', 'http://meipu3.video.meipai.com/e6f5bcab-7d0e-4958-936f-e15bc69fce42.png');
+      game.load.spritesheet(
+        'blackhead',
+        'http://meipu3.video.meipai.com/854a51dd-e1bf-4edf-b37e-71cf58794b43.png',
+        142, 111, 4);
+      game.load.spritesheet(
+        'crazyblackhead',
+        'http://meipu4.video.meipai.com/837bd3ec-587b-4043-a9a2-275e52d2ec74.png',
+        142, 111, 4);
     }
     create() {
       game.state.start('Created');

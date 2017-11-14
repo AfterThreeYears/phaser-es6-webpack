@@ -8,10 +8,9 @@ export default (game) => {
         this.scale.forcePortrait = true;
         this.scale.refresh();
       }
-      // Phaser.Canvas.setTouchAction(game.canvas, 'auto');
     }
     preload() {
-      const style = {font: '16px Arial', fill: '#dddddd', align: 'center'};
+      const style = {font: '16px Arial', fill: '#ddd', align: 'center'};
       const text = this.add.text(this.world.centerX, this.world.centerY, 'loading fonts', style);
       text.anchor.setTo(0.5, 0.5);
       game.load.image('loading', './flappybird/images/preloader.gif');
