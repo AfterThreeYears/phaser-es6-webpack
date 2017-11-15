@@ -55,7 +55,7 @@ const config = {
       },
       {
         test: /\.(eot|ttf|woff|woff2)\w*/,
-        loader: 'url-loader?limit=1000000',
+        loader: 'url-loader?limit=100',
       },
     ],
   },

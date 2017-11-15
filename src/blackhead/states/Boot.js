@@ -3,11 +3,10 @@ import Phaser from 'phaser';
 export default (game) => {
   return class extends Phaser.State {
     init() {
-      if (!game.device.desktop) {
-        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        this.scale.forcePortrait = true;
-        this.scale.refresh();
-      }
+      this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      this.scale.pageAlignHorizontally = true;
+      this.scale.pageAlignVertically = true;
+      this.scale.refresh();
     }
     preload() {
       const style = {font: '16px Arial', fill: '#ddd', align: 'center'};

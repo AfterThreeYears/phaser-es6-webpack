@@ -19,7 +19,7 @@ export default (game) => {
       const overbox = new OverBox({
         game,
         completeCb() {
-          new OverGirl({
+          self.girl = new OverGirl({
             game,
             x: game.world.centerX,
             y: 130,
@@ -39,19 +39,21 @@ export default (game) => {
                 callbackContext: self,
               });
             },
+            completeCbContext: this,
           });
         },
+        completeCbContext: this,
       });
       const style = {
         font: '40px My Font',
         wordWrap: true,
         wordWrapWidth: 582,
       };
-      this.topText = game.add.text(overbox.x, overbox.y - 150,
+      this.topText = game.add.text(overbox.x, overbox.y - 110,
         `WOW居然挤了${this.score}颗黑头!! 被我们评为：`,
         style);
       this.topText.anchor.setTo(0.5);
-      this.midText = game.add.text(overbox.x, overbox.y - 20,
+      this.midText = game.add.text(overbox.x, overbox.y - 10,
         '小纯洁',
         {
           ...style,
@@ -61,11 +63,11 @@ export default (game) => {
           },
         });
       this.midText.anchor.setTo(0.5);
-      this.bottomText = game.add.text(overbox.x, overbox.y + 150,
+      this.bottomText = game.add.text(overbox.x, overbox.y + 130,
         '你的纯洁超乎我相信！ 送你一份纯洁的小礼包， 希望你继续做好美图美妆 的社会主义接班人~',
         style);
       this.bottomText.anchor.setTo(0.5);
-      this.logo = game.add.image(overbox.x, overbox.y + 300, 'logo');
+      this.logo = game.add.sprite(overbox.x, overbox.y + 270, 'logo');
       this.logo.anchor.setTo(0.5);
     }
     onAgainGame() {
@@ -74,5 +76,8 @@ export default (game) => {
     onShare() {
       console.log('onShare');
     }
+    // render() {
+    //   if (this.girl) game.debug.spriteInfo(this.girl, 32, 32);
+    // }
   };
 };

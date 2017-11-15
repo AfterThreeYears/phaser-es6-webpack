@@ -7,6 +7,7 @@ import Fart from '../sprites/Fart';
 import startGame from '../sprites/startGame';
 import Go from '../sprites/Go';
 import GoBg from '../sprites/GoBg';
+import Voice from '../sprites/Voice';
 
 export default (game) => {
   return class extends Phaser.State {
@@ -15,6 +16,8 @@ export default (game) => {
       this.drawBg();
     }
     drawBg() {
+      this.music = game.add.audio('bg', 1, true, true);
+      this.music.play();
       const cache = game.cache.getImage('bg');
       const bgHeight = cache.height / cache.width * game.width;
       this.bg = game.add.image(0, game.height - bgHeight, 'bg');
@@ -29,6 +32,14 @@ export default (game) => {
         this.drawTitle();
         this.drawCloud();
       }, this);
+      this.voice = new Voice({
+        game,
+        x: 100,
+        y: 300,
+        frame: 1,
+        tapCallback: this.tapVoice,
+        tapContext: this,
+      });
     }
     drawCloud() {
       this.scloud1 = game.add.sprite(10, game.world.centerY - 100, 'scloud1');
@@ -45,6 +56,15 @@ export default (game) => {
         }
         this.x -= 1;
       };
+    }
+    tapVoice() {
+      const frame = this.voice.frame === 1 ? 2 : 1;
+      if (frame === 1) {
+        this.music.resume();
+      } else {
+        this.music.pause();
+      }
+      this.voice.changeFrame(frame);
     }
     drawTitle() {
       const arr = [{

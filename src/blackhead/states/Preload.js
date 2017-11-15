@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 export default (game) => {
   return class extends Phaser.State {
     preload() {
-      const preloadSprite = game.add.sprite(34, game.height / 2, 'loading');
+      const preloadSprite = game.add.sprite(10, game.height / 2, 'loading');
       game.load.setPreloadSprite(preloadSprite);
 
       game.stage.backgroundColor = '#000';
@@ -31,7 +31,7 @@ export default (game) => {
       game.load.image('gobg', 'http://meipu4.video.meipai.com/599d9dbb-c5c8-49b4-aced-7acbf3fc074b.png');
       game.load.image('crazybg', 'http://meipu3.video.meipai.com/6dace965-c5af-47b4-9c3e-8bee579fc3c3.png');
       game.load.image('skin',
-        'http://meipu1.video.meipai.com/4f7831ca-cdb7-4001-966b-148c3a9f7b1b.png?imageView2/1/w/640/h/1136/q/100');
+        'http://meipu1.video.meipai.com/4f7831ca-cdb7-4001-966b-148c3a9f7b1b.png');
       game.load.image('maskinfo', 'http://meipu4.video.meipai.com/bce6037a-d0a4-4186-9982-63e04e8b720f.png');
       game.load.image('nose', 'http://meipu2.video.meipai.com/50e0f1f9-d978-4e02-a95d-26bf0fdaced1.png');
       game.load.image('rhand', 'http://meipu2.video.meipai.com/9b18fc69-67fc-41d6-a578-ce233f2acb3f.png');
@@ -51,6 +51,11 @@ export default (game) => {
         'crazyblackhead',
         'http://meipu4.video.meipai.com/837bd3ec-587b-4043-a9a2-275e52d2ec74.png',
         142, 111, 4);
+      game.load.spritesheet(
+        'voice',
+        'http://meipu1.video.meipai.com/2b5bef00-599a-4607-9f39-49c5525c5d2b.png',
+        54, 54, 2);
+      game.load.audio('bg', './blackhead/images/normalback.mp3');
     }
     create() {
       game.state.start('Created');

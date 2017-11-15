@@ -11,10 +11,7 @@ import OverState from './states/Over';
 
 class Game extends Phaser.Game {
   constructor() {
-    // const docElement = document.documentElement;
-    // const width = docElement.clientWidth;
-    // const height = docElement.clientHeight;
-    super(640, 1136, Phaser.CANVAS, 'content', null);
+    super(720, 1280, Phaser.CANVAS, 'content', null);
   }
   init(game) {
     this.state.add('Boot', BootState(game), false);
@@ -32,7 +29,9 @@ WebFont.load({
     urls: ['./blackhead/fonts.css'],
   },
   active() {
-    console.log('init');
     game.init(game);
+  },
+  inactive(error) {
+    alert('字体加载失败');
   },
 });
