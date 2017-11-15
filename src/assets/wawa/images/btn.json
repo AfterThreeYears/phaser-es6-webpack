@@ -1,0 +1,20 @@
+{"frames": {
+
+"开始.png":
+{
+	"frame": {"x":0,"y":0,"w":281,"h":105},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":281,"h":105},
+	"sourceSize": {"w":281,"h":105}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "btn.png",
+	"format": "RGBA8888",
+	"size": {"w":281,"h":105},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:78f29b6323c7141433bf53618be6e4a4:1/1$"
+}
+}
