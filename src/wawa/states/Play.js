@@ -4,17 +4,19 @@ export default (game) => {
   return class extends Phaser.State {
     create() {
       this.now = Date.now();
-      game.physics.startSystem(Phaser.Physics.ARCADE);
       this.item = null;
       this.dollIndex = 0;
       this.clawSpeed = 400;
-      this.dollSpeed = 200;
-      this.dollTime = 1000;
+      this.dollSpeed = -100;
+      this.clawPosition = 60;
+      this.dollTime = dollsTypes[0].time;
       // 抓到娃娃
       this.grabOne = false;
       this.time = 100;
       this.end = false;
 
+      this.createMuisc();
+      
       // 定时器
       this.timer = game.time.events.loop(1000, function() {
         if (this.time > 0) {
@@ -38,8 +40,9 @@ export default (game) => {
       this.glass.height = game.height;
 
       // 地板
-      this.floor = game.add.sprite(game.world.centerX, game.height - 200, 'floor');
+      this.floor = game.add.sprite(game.world.centerX, game.height - 140, 'floor');
       this.floor.anchor.setTo(0.5, 0);
+      this.floor.scale.setTo(1, 0.8);
 
       this.drawScore();
       this.drawTime();
@@ -50,30 +53,38 @@ export default (game) => {
 
       game.physics.enable(this.dollGroup, Phaser.Physics.ARCADE);
 
+      this.dollPollGroup = this.add.group();
+      this.dollPollGroup.enableBody = true;
+
+      game.physics.enable(this.dollPollGroup, Phaser.Physics.ARCADE);
+
       this.clawGroup = this.add.group();
       this.clawGroup.enableBody = true;
 
-      this.wood = game.add.sprite(game.world.centerX, -620, 'pole', null, this.clawGroup);
-      this.wood.anchor.setTo(0.5, 0);
+      this.pole = game.add.tileSprite(
+        game.world.centerX,
+        -game.height,
+        13,
+        game.height + this.clawPosition + 5,
+        'pole',
+        null,
+      );
+      this.pole.anchor.setTo(0.5, 0);
+      game.physics.arcade.enable(this.pole);
 
-      this.claw0 = game.add.sprite(game.world.centerX, 0, 'close', null, this.clawGroup);
-      this.claw0.anchor.setTo(0.5, 0);
-
-      this.claw1 = game.add.sprite(game.world.centerX, 0, 'open', null, this.clawGroup);
-      this.claw1.anchor.setTo(0.5, 0);
+      this.claw = game.add.sprite(game.world.centerX, 0, 'claw', 'open.png', this.clawGroup);
+      this.claw.anchor.setTo(0.5, 0);
 
       game.physics.enable(this.clawGroup, Phaser.Physics.ARCADE);
 
-      this.claw1.update = () => {
-        // console.log(this.y);
-        if (this.claw1.y < 60) {
-          this.clawGroup.setAll('body.velocity.y', 0);
-          this.clawGroup.setAll('body.y', 60);
+      this.claw.update = () => {
+        if (this.claw.y < this.clawPosition) {
+          this.setClawSpeed(0);
+          this.clawGroup.setAll('body.y', this.clawPosition);
           this.grabOne = false;
-          this.wood.body.y = -612 + 65;
+          this.pole.body.y = -game.height;
 
           if (!this.item) return;
-          // this.item.alpha = 0;
           this.addScore();
           this.item.kill();
           this.item = null;
@@ -90,51 +101,68 @@ export default (game) => {
       game.physics.arcade.overlap(this.clawGroup, this.dollGroup, this.hit, null, this);
       this.drawClaw();
       if (Date.now() - this.now > this.dollTime) {
-        this.generateDolls();
+        if (this.end) return;
+        const {name, time} = dollsTypes[this.dollIndex % dollsTypes.length];
+        this.dollTime = time;
+        this.generateDolls({name});
         this.now = Date.now();
+        this.dollIndex += 1;
       }
     }
-    generateDolls() {
-      if (this.end) return;
-      const {name, time} = dollsTypes[this.dollIndex % dollsTypes.length];
-      this.dollTime = time;
-      const doll = this.dollGroup.getFirstExists(false, true, game.width, game.height, 'dolls', name);
+    generateDolls({name}) {
+      const doll = this.dollGroup.getFirstExists(false, true, -400, game.height, 'shadowDolls', name);
+      doll.scale.setTo(1.2, 1.2);
+      doll.anchor.setTo(0.5, 0);
       doll.y = this.floor.centerY - doll.height;
+      doll.x = -doll.width / 2;
       doll.checkWorldBounds = true;
       doll.outOfBoundsKill = true;
       doll.body.velocity.x = -this.dollSpeed;
       this.dollGroup.add(doll);
-      this.dollIndex += 1;
+      return doll;
+    }
+    generatePollDolls({x, y, frameName}) {
+      const doll = this.dollPollGroup.getFirstExists(false, true, x || game.world.centerX, y, 'dolls', frameName);
+      doll.scale.setTo(0.8, 0.8);
+      doll.anchor.setTo(0.5, 0);
+      doll.body.velocity.y = -this.clawSpeed;
+      this.dollPollGroup.add(doll);
+      return doll;
     }
     hit(clawGroup, doll) {
       if (this.item) return;
-      const x = doll.x;
-      if (clawGroup.y >= game.height - 300) {
-        this.clawGroup.setAll('body.velocity.y', -this.clawSpeed);
+      const clawBottom = clawGroup.y + clawGroup.height;
+      const floorCenter = this.floor.y + this.floor.height / 2;
+      if (clawBottom >= floorCenter - 20) {
         this.grabOne = true;
-        if ( Math.abs(x + doll.width / 2 - game.world.centerX) < 40 ) {
-          this.item = doll;
-          doll.checked = true;
-          doll.body.velocity.y = -this.clawSpeed;
-          doll.body.velocity.x = 0;
-        }
+        this.isGrab(doll);
+        this.setClawSpeed(-this.clawSpeed);
+      }
+    }
+    isGrab(doll) {
+      const distance = Math.abs(doll.centerX - game.world.centerX);
+      console.log(`差了${distance},方向是往${this.pole.body.velocity.y > 0 ? '下' : '上'}`);
+      if (distance < 40 && this.pole.body.velocity.y > 0) {
+        doll.kill();
+        this.item = this.generatePollDolls(doll);
+        this.success.play();
+      } else {
+        this.fail.play();
       }
     }
     grab() {
       if (this.grabOne || this.end) return;
-      this.clawGroup.setAll('body.velocity.y', this.clawSpeed);
+      this.setClawSpeed(this.clawSpeed);
+    }
+    setClawSpeed(speed) {
+      this.clawGroup.setAll('body.velocity.y', speed);
+      this.pole.body.velocity.y = speed;
     }
     drawClaw() {
       if (this.grabOne) {
-        game.add.tween(this.claw0)
-          .to({alpha: 1}, 1, null, true, 0, 0, false);
-        game.add.tween(this.claw1)
-          .to({alpha: 0}, 1, null, true, 0, 0, false);
+        this.claw.frameName = 'close.png';
       } else {
-        game.add.tween(this.claw0)
-          .to({alpha: 0}, 1, null, true, 0, 0, false);
-        game.add.tween(this.claw1)
-          .to({alpha: 1}, 1, null, true, 0, 0, false);
+        this.claw.frameName = 'open.png';
       }
     }
     drawScore() {
@@ -159,11 +187,11 @@ export default (game) => {
     }
     gameOver() {
       this.end = true;
-      this.clawGroup.setAll('body.velocity.y', 0);
+      this.setClawSpeed(0);
       this.dollGroup.setAll('body.velocity.x', 0);
       const style = {
         fill: '#fff',
-        font: '20px',
+        font: '40px',
       };
       this.playAngin = game.add.text(game.world.centerX, game.world.centerY, '在玩一次', style);
       this.playAngin.anchor.setTo(0.5);
@@ -171,6 +199,18 @@ export default (game) => {
       this.playAngin.events.onInputDown.add(function() {
         game.state.start('Play');
       });
+    }
+    createMuisc() {
+      this.bgm = game.add.audio('bgm');
+      this.success = game.add.audio('success');
+      this.fail = game.add.audio('fail');
+      game.sound.setDecodedCallback(this.bgm, this.startPlay, this);
+    }
+    startPlay() {
+      this.bgm.loopFull(1);
+    }
+    render() {
+      // game.debug.spriteInfo(this.floor, 32, 32);
     }
   };
 };

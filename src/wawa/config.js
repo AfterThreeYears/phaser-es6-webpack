@@ -1,30 +1,37 @@
 export const dollsTypes = [
   {
     name: '1.png',
-    time: 600,
+    shadow: 'yys.png',
+    time: 900,
   },
   {
     name: '2.png',
-    time: 700,
+    shadow: 'yys.png',
+    time: 1300,
   },
   {
     name: '3.png',
-    time: 1000,
+    shadow: 'yys.png',
+    time: 1500,
   },
   {
     name: '4.png',
-    time: 1000,
+    shadow: 'yyb.png',
+    time: 1600,
   },
   {
     name: '5.png',
-    time: 1000,
+    shadow: 'yyb.png',
+    time: 1500,
   },
   {
     name: '6.png',
-    time: 800,
+    shadow: 'yys.png',
+    time: 1700,
   },
   {
     name: '7.png',
-    time: 600,
+    shadow: 'yys.png',
+    time: 1200,
   },
 ];
